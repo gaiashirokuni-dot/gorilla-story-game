@@ -135,9 +135,16 @@ button{cursor:pointer}
   opacity:0;
   transition:opacity .3s ease;
   padding:30px;
+
+  pointer-events:none;
 }
 
 .chapter-curtain.show{opacity:1}
+
+
+.chapter-curtain[hidden]{
+  display:none !important;
+}
 
 .chapter-curtain .cc-kicker{
   font-size:9px;
