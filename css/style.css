@@ -1,0 +1,671 @@
+*{box-sizing:border-box}
+
+:root{
+  --bg:#07080b;
+  --panel:rgba(6,7,10,.88);
+  --panel-deep:rgba(5,6,9,.94);
+  --soft:rgba(255,255,255,.065);
+  --line:rgba(255,255,255,.17);
+  --text:#fff;
+  --muted:rgba(255,255,255,.61);
+  --accent:#f2d06b;
+}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  background:var(--bg);
+  color:var(--text);
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  min-height:100svh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+button,input{font:inherit}
+button{cursor:pointer}
+
+.game-shell{
+  position:relative;
+  isolation:isolate;
+  width:100%;
+  max-width:520px;
+  height:100svh;
+  max-height:920px;
+  overflow:hidden;
+  background:#101116;
+}
+
+/* ==============================
+   BACKGROUND / CHARACTER
+   ============================== */
+
+.backdrop{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  background:
+    radial-gradient(circle at 50% 20%,rgba(50,70,110,.18),transparent 38%),
+    linear-gradient(155deg,#171a21,#07080b 72%);
+  background-size:cover;
+  background-position:center;
+  transform:scale(1.02);
+  transition:
+    background-image .5s ease,
+    background-position .5s ease,
+    filter .55s ease,
+    transform .8s ease;
+}
+
+.standing-layer{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  overflow:hidden;
+  pointer-events:none;
+}
+
+.standing-image{
+  position:absolute;
+  left:50%;
+  bottom:0;
+  height:76%;
+  width:auto;
+  max-width:98%;
+  object-fit:contain;
+  object-position:center bottom;
+  transform:translateX(-50%);
+  transform-origin:center bottom;
+  opacity:0;
+  transition:
+    opacity .42s ease,
+    transform .48s ease,
+    left .48s ease,
+    filter .48s ease;
+  filter:drop-shadow(0 18px 26px rgba(0,0,0,.38));
+}
+
+.standing-image.show{opacity:1}
+
+.screen-shade{
+  position:absolute;
+  inset:0;
+  z-index:3;
+  pointer-events:none;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,.13),
+      rgba(0,0,0,.02) 35%,
+      rgba(0,0,0,.16) 58%,
+      rgba(0,0,0,.78) 84%,
+      rgba(0,0,0,.94)
+    );
+}
+
+/* ==============================
+   TRANSITIONS
+   ============================== */
+
+.flash{
+  position:absolute;
+  inset:0;
+  z-index:50;
+  pointer-events:none;
+  background:#000;
+  opacity:0;
+  transition:opacity .38s ease;
+}
+.flash.on{opacity:1}
+
+.chapter-curtain{
+  position:absolute;
+  inset:0;
+  z-index:45;
+  background:rgba(0,0,0,.94);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  opacity:0;
+  transition:opacity .3s ease;
+  padding:30px;
+}
+
+.chapter-curtain.show{opacity:1}
+
+.chapter-curtain .cc-kicker{
+  font-size:9px;
+  letter-spacing:.24em;
+  color:var(--accent);
+  margin-bottom:9px;
+}
+
+.chapter-curtain .cc-title{
+  font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
+  font-size:27px;
+  line-height:1.5;
+  letter-spacing:.04em;
+}
+
+.system-alert{
+  position:absolute;
+  z-index:60;
+  left:50%;
+  top:16%;
+  width:calc(100% - 34px);
+  transform:translateX(-50%) scale(.97);
+  padding:15px 16px;
+  border-radius:13px;
+  text-align:center;
+  background:rgba(58,0,0,.95);
+  border:1px solid rgba(255,255,255,.20);
+  box-shadow:0 18px 60px rgba(0,0,0,.5);
+  opacity:0;
+  pointer-events:none;
+  transition:.24s ease;
+  font-size:11px;
+  line-height:1.75;
+  letter-spacing:.04em;
+}
+.system-alert.on{
+  opacity:1;
+  transform:translateX(-50%) scale(1);
+}
+
+/* ==============================
+   TOP UI
+   ============================== */
+
+.topbar{
+  position:absolute;
+  z-index:12;
+  left:0;
+  right:0;
+  top:0;
+  padding:calc(12px + env(safe-area-inset-top)) 12px 9px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+
+.brand{
+  font-size:8px;
+  letter-spacing:.22em;
+  color:rgba(255,255,255,.56);
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.icon-btn,
+.gorilla-meter{
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:999px;
+  padding:6px 8px;
+  font-size:8px;
+  letter-spacing:.08em;
+  color:rgba(255,255,255,.75);
+  background:rgba(0,0,0,.25);
+  backdrop-filter:blur(10px);
+}
+
+.gorilla-meter{
+  color:#f9dc72;
+  border-color:rgba(249,220,114,.32);
+  background:rgba(41,34,5,.38);
+}
+
+/* ==============================
+   STAGE
+   ============================== */
+
+.stage{
+  position:absolute;
+  inset:0;
+  z-index:8;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:
+    74px
+    12px
+    calc(14px + env(safe-area-inset-bottom));
+}
+
+/* ==============================
+   TITLE / MENU
+   ============================== */
+
+.menu-card{
+  width:100%;
+  padding:22px 18px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.13);
+  background:rgba(5,6,9,.78);
+  backdrop-filter:blur(18px);
+  box-shadow:0 22px 65px rgba(0,0,0,.45);
+  animation:rise .32s ease both;
+}
+
+.center{text-align:center}
+
+.kicker{
+  font-size:8px;
+  letter-spacing:.23em;
+  color:var(--muted);
+  margin-bottom:9px;
+}
+
+.title{
+  margin:0;
+  font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
+  font-weight:500;
+  font-size:28px;
+  line-height:1.5;
+}
+
+.lead{
+  margin:13px 0 0;
+  font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
+  font-size:14px;
+  line-height:1.88;
+  color:rgba(255,255,255,.88);
+}
+
+.muted{
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.75;
+}
+
+.name-input{
+  width:100%;
+  margin-top:15px;
+  padding:13px 14px;
+  color:#fff;
+  background:rgba(0,0,0,.32);
+  border:1px solid rgba(255,255,255,.17);
+  border-radius:11px;
+  outline:none;
+}
+
+/* ==============================
+   VISUAL NOVEL DIALOGUE BOX
+   ============================== */
+
+.vn-box{
+  position:relative;
+  width:100%;
+  min-height:168px;
+  padding:25px 15px 13px;
+  border-radius:11px 11px 16px 16px;
+  border:1px solid rgba(255,255,255,.18);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(6,7,11,.88),
+      rgba(3,4,7,.95)
+    );
+  backdrop-filter:blur(14px);
+  box-shadow:
+    0 18px 55px rgba(0,0,0,.52),
+    inset 0 1px 0 rgba(255,255,255,.04);
+  animation:dialogueIn .23s ease both;
+}
+
+.vn-nameplate{
+  position:absolute;
+  top:-15px;
+  left:13px;
+  min-width:92px;
+  padding:7px 15px;
+  border-radius:8px 8px 3px 3px;
+  background:rgba(9,10,14,.96);
+  border:1px solid rgba(255,255,255,.19);
+  font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
+  font-size:13px;
+  letter-spacing:.1em;
+  box-shadow:0 7px 20px rgba(0,0,0,.26);
+}
+
+.vn-chapter{
+  position:absolute;
+  right:12px;
+  top:7px;
+  font-size:7px;
+  letter-spacing:.16em;
+  color:rgba(255,255,255,.35);
+}
+
+.vn-dialogue{
+  min-height:68px;
+  font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
+  font-size:15px;
+  line-height:1.92;
+  letter-spacing:.015em;
+  white-space:normal;
+}
+
+.vn-dialogue.typing::after{
+  content:"";
+  display:inline-block;
+  width:5px;
+  height:14px;
+  margin-left:4px;
+  vertical-align:-2px;
+  background:rgba(255,255,255,.7);
+  animation:cursor .7s steps(1) infinite;
+}
+
+.vn-tap{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  min-height:19px;
+  margin-top:3px;
+  font-size:8px;
+  letter-spacing:.08em;
+  color:rgba(255,255,255,.37);
+}
+
+.vn-tap .triangle{
+  display:inline-block;
+  margin-left:5px;
+  animation:bob .8s ease infinite alternate;
+}
+
+/* ==============================
+   CHOICES
+   ============================== */
+
+.actions{
+  display:grid;
+  gap:7px;
+  margin-top:12px;
+}
+
+.choice-stack{
+  display:grid;
+  gap:7px;
+  margin-top:11px;
+  opacity:0;
+  transform:translateY(5px);
+  pointer-events:none;
+  transition:.25s ease;
+}
+
+.choice-stack.show{
+  opacity:1;
+  transform:none;
+  pointer-events:auto;
+}
+
+.btn,.choice{
+  width:100%;
+  border:1px solid rgba(255,255,255,.16);
+  color:#fff;
+  background:rgba(255,255,255,.055);
+  transition:.17s ease;
+}
+
+.btn{
+  padding:11px 12px;
+  border-radius:11px;
+  text-align:center;
+  font-size:11px;
+  letter-spacing:.04em;
+}
+
+.choice{
+  position:relative;
+  padding:11px 13px 11px 31px;
+  border-radius:8px;
+  text-align:left;
+  font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
+  font-size:12px;
+  line-height:1.5;
+}
+
+.choice::before{
+  content:"";
+  position:absolute;
+  left:13px;
+  top:50%;
+  width:5px;
+  height:5px;
+  border-right:1px solid rgba(255,255,255,.65);
+  border-bottom:1px solid rgba(255,255,255,.65);
+  transform:translateY(-60%) rotate(-45deg);
+}
+
+.btn.primary{
+  background:rgba(255,255,255,.12);
+  border-color:rgba(255,255,255,.24);
+}
+
+.btn:hover,.choice:hover{
+  background:rgba(255,255,255,.11);
+  transform:translateY(-1px);
+}
+
+/* ==============================
+   COLLECTION
+   ============================== */
+
+.collection-grid{
+  display:grid;
+  gap:6px;
+  margin-top:13px;
+}
+
+.end-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:9px 10px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.035);
+  font-size:9px;
+}
+
+.end-row.found{
+  background:rgba(255,255,255,.075);
+}
+
+/* ==============================
+   ENDING / EVENT CG
+   ============================== */
+
+.event-mode .standing-layer{
+  display:none;
+}
+
+.event-mode .screen-shade{
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,.03),
+      rgba(0,0,0,.12) 44%,
+      rgba(0,0,0,.70) 75%,
+      rgba(0,0,0,.95)
+    );
+}
+
+.event-mode .backdrop{
+  filter:none;
+  transform:scale(1.025);
+}
+
+.ending-panel{
+  width:100%;
+  padding:16px 15px 12px;
+  border-top:1px solid rgba(255,255,255,.17);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(4,5,8,.78),
+      rgba(3,4,7,.95)
+    );
+  backdrop-filter:blur(14px);
+  box-shadow:0 -18px 50px rgba(0,0,0,.38);
+  animation:endingUp .42s ease both;
+}
+
+.ending-kicker{
+  font-size:8px;
+  letter-spacing:.25em;
+  color:var(--accent);
+}
+
+.result-name{
+  margin-top:5px;
+  font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
+  font-size:31px;
+  letter-spacing:.13em;
+}
+
+.result-label{
+  display:inline-block;
+  margin-top:3px;
+  font-size:8px;
+  letter-spacing:.17em;
+  color:rgba(255,255,255,.57);
+}
+
+.ending-title{
+  margin:10px 0 0;
+  font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
+  font-weight:500;
+  font-size:18px;
+  line-height:1.55;
+}
+
+.ending-line{
+  margin:9px 0 0;
+  font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
+  font-size:13px;
+  line-height:1.78;
+}
+
+.ending-body{
+  margin:7px 0 0;
+  font-size:9px;
+  color:rgba(255,255,255,.53);
+  line-height:1.7;
+}
+
+.ending-actions{
+  display:flex;
+  justify-content:center;
+  gap:13px;
+  margin-top:12px;
+}
+
+.ending-link-btn{
+  border:0;
+  background:none;
+  color:rgba(255,255,255,.53);
+  padding:2px;
+  font-size:8px;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+.x-link{
+  display:block;
+  width:max-content;
+  max-width:100%;
+  margin:11px auto 0;
+  padding:2px 0;
+  color:rgba(255,255,255,.44);
+  font-size:8px;
+  letter-spacing:.06em;
+  text-decoration:none;
+  border-bottom:1px solid rgba(255,255,255,.20);
+  transition:.18s ease;
+}
+
+.x-link:hover{
+  color:rgba(255,255,255,.78);
+  border-color:rgba(255,255,255,.46);
+}
+
+/* ==============================
+   OTHER
+   ============================== */
+
+.prototype-tag{
+  position:absolute;
+  z-index:9;
+  left:8px;
+  bottom:5px;
+  font-size:6px;
+  letter-spacing:.12em;
+  color:rgba(255,255,255,.22);
+  pointer-events:none;
+}
+
+/* ==============================
+   ANIMATIONS
+   ============================== */
+
+@keyframes rise{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:none}
+}
+
+@keyframes dialogueIn{
+  from{opacity:0;transform:translateY(5px)}
+  to{opacity:1;transform:none}
+}
+
+@keyframes endingUp{
+  from{opacity:0;transform:translateY(14px)}
+  to{opacity:1;transform:none}
+}
+
+@keyframes cursor{
+  0%,49%{opacity:1}
+  50%,100%{opacity:0}
+}
+
+@keyframes bob{
+  from{transform:translateY(-1px)}
+  to{transform:translateY(2px)}
+}
+
+/* ==============================
+   RESPONSIVE
+   ============================== */
+
+@media(max-height:700px){
+  .standing-image{height:68%}
+  .stage{padding-bottom:calc(9px + env(safe-area-inset-bottom))}
+  .vn-box{min-height:146px;padding-top:23px}
+  .vn-dialogue{font-size:14px;line-height:1.76;min-height:58px}
+  .choice{padding-top:9px;padding-bottom:9px}
+  .ending-panel{padding-top:12px}
+  .result-name{font-size:27px}
+}
+
+@media(min-width:720px){
+  body{padding:18px}
+
+  .game-shell{
+    height:min(920px,calc(100svh - 36px));
+    border-radius:23px;
+    box-shadow:0 25px 75px rgba(0,0,0,.46);
+  }
+}
