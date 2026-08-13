@@ -23,31 +23,31 @@ window.GORILLA_SCENES = {
 
     normal: {
       src: "assets/standing/gorilla/normal.png",
-      scale: 0.88,
-      x: 52,
+      scale: 1.05,
+      x: 50,
       y: 100,
       filter: "none"
     },
 
     close: {
       src: "assets/standing/gorilla/normal.png",
-      scale: 1.08,
-      x: 54,
-      y: 102,
+      scale: 1.16,
+      x: 50,
+      y: 101,
       filter: "none"
     },
 
     power: {
       src: "assets/standing/gorilla/normal.png",
-      scale: 1.03,
+      scale: 1.12,
       x: 50,
-      y: 101,
+      y: 100,
       filter: "contrast(1.04) saturate(1.06)"
     },
 
     serious: {
       src: "assets/standing/gorilla/normal.png",
-      scale: 0.96,
+      scale: 1.08,
       x: 50,
       y: 100,
       filter: "brightness(.92) contrast(1.08)"
@@ -55,7 +55,7 @@ window.GORILLA_SCENES = {
 
     dark: {
       src: "assets/standing/gorilla/normal.png",
-      scale: 1.02,
+      scale: 1.12,
       x: 50,
       y: 101,
       filter: "brightness(.72) contrast(1.16)"
