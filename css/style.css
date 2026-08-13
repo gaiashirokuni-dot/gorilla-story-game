@@ -73,9 +73,9 @@ button{cursor:pointer}
   position:absolute;
   left:50%;
   bottom:0;
-  height:76%;
+  height:88%;
   width:auto;
-  max-width:98%;
+  max-width:120%;
   object-fit:contain;
   object-position:center bottom;
   transform:translateX(-50%);
@@ -658,7 +658,10 @@ button{cursor:pointer}
    ============================== */
 
 @media(max-height:700px){
-  .standing-image{height:68%}
+  .standing-image{
+    height:82%;
+    max-width:118%;
+  }
   .stage{padding-bottom:calc(9px + env(safe-area-inset-bottom))}
   .vn-box{min-height:146px;padding-top:23px}
   .vn-dialogue{font-size:14px;line-height:1.76;min-height:58px}
