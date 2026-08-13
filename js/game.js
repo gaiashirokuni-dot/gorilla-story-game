@@ -443,6 +443,7 @@
 
     const node = FLOW.nodes[nodeId];
     const action = node.choices[choiceId];
+    const textNode = TEXT.nodes[nodeId];
 
     state.history.push({
       nodeId,
@@ -450,6 +451,7 @@
     });
 
     applyChoice(action);
+    updateMeter();
 
     const level = gorillaLevel();
 
@@ -457,19 +459,64 @@
       showAlert(TEXT.ui.gorillaWarning);
     }
 
-    flash.classList.add("on");
+    renderReaction(nodeId, choiceId, action, textNode);
+  }
 
-    setTimeout(() => {
-      if (action.end) {
-        resolveEnding();
-      } else {
-        renderNode(action.next);
+  function renderReaction(nodeId, choiceId, action, textNode) {
+    const reaction =
+      textNode.reactions?.[choiceId] ||
+      "くにおは、その言葉を聞いて少し笑った。";
+
+    stage.innerHTML = `
+      <section class="vn-box reaction-box">
+        <div class="vn-nameplate">くにお</div>
+
+        <div class="vn-chapter">
+          REACTION
+        </div>
+
+        <div id="reactionText" class="vn-dialogue"></div>
+
+        <div id="reactionContinueWrap" class="reaction-continue">
+          <button id="reactionContinue" class="btn primary">
+            ${esc(TEXT.ui.continue)}
+          </button>
+        </div>
+      </section>
+    `;
+
+    const reactionText =
+      document.getElementById("reactionText");
+
+    const continueWrap =
+      document.getElementById("reactionContinueWrap");
+
+    continueWrap.classList.remove("show");
+
+    typeDialogue(
+      reactionText,
+      reaction,
+      () => {
+        continueWrap.classList.add("show");
       }
+    );
+
+    document.getElementById("reactionContinue").onclick = () => {
+      stopTyping();
+      flash.classList.add("on");
 
       setTimeout(() => {
-        flash.classList.remove("on");
-      }, 100);
-    }, 300);
+        if (action.end) {
+          resolveEnding();
+        } else {
+          renderNode(action.next);
+        }
+
+        setTimeout(() => {
+          flash.classList.remove("on");
+        }, 100);
+      }, 300);
+    };
   }
 
   function resolveEnding() {
@@ -647,16 +694,25 @@
           ? TEXT.endings[id].label
           : TEXT.ui.unknown;
 
+        if (isFound) {
+          return `
+            <button class="end-row found end-row-button" data-ending-id="${id}">
+              <span>
+                ${String(index + 1).padStart(2, "0")}　
+                ${esc(label)}
+              </span>
+              <span>${esc(TEXT.ui.found)}　›</span>
+            </button>
+          `;
+        }
+
         return `
-          <div class="end-row ${isFound ? "found" : ""}">
+          <div class="end-row">
             <span>
               ${String(index + 1).padStart(2, "0")}　
               ${esc(label)}
             </span>
-
-            <span>
-              ${isFound ? esc(TEXT.ui.found) : esc(TEXT.ui.notFound)}
-            </span>
+            <span>${esc(TEXT.ui.notFound)}</span>
           </div>
         `;
       })
@@ -671,7 +727,7 @@
         </h2>
 
         <p class="muted">
-          ${esc(template(TEXT.ui.collectionHelp, {
+          ${html(template(TEXT.ui.collectionHelp, {
             found: found.length,
             total: CONFIG.endingOrder.length
           }))}
@@ -693,8 +749,57 @@
       </section>
     `;
 
+    stage.querySelectorAll("[data-ending-id]").forEach(button => {
+      button.onclick = () => {
+        collectionEndingPreview(button.dataset.endingId);
+      };
+    });
+
     document.getElementById("collectionPlay").onclick = nameScreen;
     document.getElementById("collectionHome").onclick = titleScreen;
+  }
+
+  function collectionEndingPreview(id) {
+    const endingText = TEXT.endings[id];
+    const cg = CONFIG.endingCG[id];
+
+    if (!endingText || !cg || !getFound().includes(id)) {
+      collectionScreen();
+      return;
+    }
+
+    game.classList.add("event-mode");
+    hideStanding();
+
+    backdrop.style.backgroundImage = `url("${cg}")`;
+    backdrop.style.backgroundPosition = "center";
+
+    const displayName =
+      id === "true"
+        ? "ゴリラ"
+        : "くにお";
+
+    stage.innerHTML = `
+      <section class="collection-cg-panel center">
+        <div class="ending-kicker">MEMORY</div>
+
+        <div class="result-name">${displayName}</div>
+
+        <div class="result-label">
+          ${esc(endingText.label)}
+        </div>
+
+        <h2 class="ending-title">
+          ${html(endingText.title)}
+        </h2>
+
+        <button id="backCollectionBtn" class="ending-link-btn collection-back-btn">
+          ← ${esc(TEXT.ui.backCollection)}
+        </button>
+      </section>
+    `;
+
+    document.getElementById("backCollectionBtn").onclick = collectionScreen;
   }
 
   collectionBtn.onclick = collectionScreen;
