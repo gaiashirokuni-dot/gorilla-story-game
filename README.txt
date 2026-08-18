@@ -86,3 +86,19 @@ js/game.js
 ・GORILLA LEVEL上昇時に軽い反応演出
 ・ENDING COLLECTIONを2列ギャラリー化
 ・発見済みENDは宣材写真を薄くサムネイル表示
+
+
+【V1.6 UIセルフレビュー改良】
+PASS 1:
+・iPhoneのタップ領域を拡大
+・本文/選択肢の文字サイズを再調整
+・会話欄が縦に溢れる場合に内部スクロール可能
+・ENDING COLLECTIONをスクロール対応
+・小型iPhoneではEND一覧を1列化
+
+PASS 2:
+・タイトル画面に背景＋くにお立ち絵を表示
+・タイトル専用の暗め演出を追加
+・safe areaを左右にも対応
+・エンディング画面のリンク余白を調整
+・prefers-reduced-motion対応
