@@ -10,35 +10,35 @@ window.GORILLA_SCENES = {
   },
   standing: {
     normal: {
-      src: "stand-normal.webp",
+      src: "stand-serious-hq.png",
       scale: 1,
       x: 50,
       y: 101,
       filter: "none"
     },
     smile: {
-      src: "stand-smile.webp",
+      src: "stand-smile-hq.png",
       scale: 1,
       x: 50,
       y: 101,
       filter: "none"
     },
     serious: {
-      src: "stand-serious.webp",
+      src: "stand-serious-hq.png",
       scale: 1.02,
       x: 50,
       y: 101,
       filter: "contrast(1.03)"
     },
     power: {
-      src: "stand-power.webp",
-      scale: 1.02,
+      src: "stand-serious-hq.png",
+      scale: 1.05,
       x: 50,
       y: 101,
       filter: "contrast(1.05) saturate(1.04)"
     },
     close: {
-      src: "stand-smile.webp",
+      src: "stand-smile-hq.png",
       scale: 1.12,
       x: 50,
       y: 102,

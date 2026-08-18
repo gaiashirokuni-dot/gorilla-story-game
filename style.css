@@ -607,7 +607,7 @@ noscript {
   width: 100%;
   max-height: calc(100svh - 88px);
   max-height: calc(100dvh - 88px);
-  padding: 28px 15px 13px;
+  padding: 51px 15px 13px;
   overflow-y: auto;
   overscroll-behavior: contain;
   border: 1px solid rgba(255, 255, 255, 0.16);
@@ -638,9 +638,10 @@ noscript {
 
 .vn-nameplate {
   position: absolute;
-  top: -17px;
-  left: 11px;
+  top: 10px;
+  left: 12px;
   min-width: 88px;
+  max-width: 43%;
   padding: 8px 14px;
   border: 1px solid rgba(216, 188, 114, 0.31);
   border-radius: 5px 5px 3px 3px;
@@ -650,6 +651,9 @@ noscript {
   font-family: var(--serif);
   font-size: 13px;
   letter-spacing: 0.12em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .vn-nameplate.accent {
@@ -658,9 +662,9 @@ noscript {
 
 .vn-chapter {
   position: absolute;
-  top: 8px;
+  top: 20px;
   right: 12px;
-  max-width: 56%;
+  max-width: 50%;
   overflow: hidden;
   color: rgba(255, 255, 255, 0.34);
   font-size: 6px;
@@ -1430,7 +1434,7 @@ noscript {
   .vn-box {
     max-height: calc(100svh - 68px);
     max-height: calc(100dvh - 68px);
-    padding-top: 25px;
+    padding-top: 47px;
   }
 
   .vn-dialogue {
