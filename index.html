@@ -2,47 +2,51 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#08090c">
-  <title>KUNIO STORY V2.0.2｜今日は俺に任せる？</title>
-  <meta name="description" content="くにおとの一日を選択肢で進める、実写ADVノベルゲーム。">
-  <link rel="stylesheet" href="./style.css?v=2.0.2">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#08090d">
+  <meta name="color-scheme" content="dark">
+  <meta name="format-detection" content="telephone=no">
+  <title>KUNIO STORY V2.0｜今日は俺に任せる？</title>
+  <meta name="description" content="選んだ言葉で、くにおとの一日が変わる。スマホ向け実写ADVノベルゲーム。">
+  <link rel="stylesheet" href="./style.css?v=2.0.3">
 </head>
 <body>
-  <div id="game" class="game-shell">
-    <div id="backdrop" class="backdrop"></div>
+  <noscript>このゲームを遊ぶにはJavaScriptを有効にしてください。</noscript>
 
-    <div id="standingLayer" class="standing-layer" hidden>
-      <img id="standingImage" class="standing-image" alt="くにお">
+  <div id="game" class="game-shell title-mode">
+    <div id="backdrop" class="backdrop" aria-hidden="true"></div>
+
+    <div id="standingLayer" class="standing-layer" hidden aria-hidden="true">
+      <img id="standingImage" class="standing-image" alt="">
     </div>
 
-    <div id="shade" class="screen-shade"></div>
-    <div id="flash" class="flash"></div>
-    <div id="chapterCurtain" class="chapter-curtain" hidden></div>
-    <div id="systemAlert" class="system-alert"></div>
+    <div id="shade" class="screen-shade" aria-hidden="true"></div>
+    <div id="ambient" class="ambient" aria-hidden="true"></div>
+    <div id="flash" class="flash" aria-hidden="true"></div>
+    <div id="chapterCurtain" class="chapter-curtain" hidden aria-hidden="true"></div>
+    <div id="systemAlert" class="system-alert" role="status" aria-live="polite"></div>
 
-    <header class="topbar">
-      <div id="brand" class="brand">KUNIO STORY</div>
+    <header class="topbar" aria-label="ゲームメニュー">
+      <button id="brand" class="brand-button" type="button" aria-label="タイトルへ戻る">KUNIO STORY</button>
       <div class="top-actions">
-        <div id="gorillaMeter" class="gorilla-meter" hidden>GORILLA 0%</div>
-        <button id="autoBtn" class="icon-btn system-tool" type="button">AUTO</button>
-        <button id="skipBtn" class="icon-btn system-tool" type="button">SKIP</button>
+        <div id="gorillaMeter" class="gorilla-meter" hidden aria-label="ゴリラレベル">GORILLA 0%</div>
+        <button id="autoBtn" class="icon-btn system-tool" type="button" aria-pressed="false">AUTO</button>
+        <button id="skipBtn" class="icon-btn system-tool" type="button" aria-pressed="false">SKIP</button>
         <button id="logBtn" class="icon-btn system-tool" type="button">LOG</button>
         <button id="menuBtn" class="icon-btn system-tool" type="button">MENU</button>
-        <button id="collectionBtn" class="icon-btn" type="button">END</button>
-        <button id="homeBtn" class="icon-btn" type="button" hidden>HOME</button>
+        <button id="collectionBtn" class="icon-btn collection-tool" type="button">END</button>
       </div>
     </header>
 
     <main id="stage" class="stage" aria-live="polite"></main>
     <div id="modalLayer" class="modal-layer" hidden></div>
-    <div class="prototype-tag">KUNIO STORY V2.0.2</div>
+    <div class="build-tag" aria-hidden="true">KUNIO STORY V2.0 FINAL</div>
   </div>
 
-  <script src="./text.js?v=2.0.2"></script>
-  <script src="./game-config.js?v=2.0.2"></script>
-  <script src="./scene-config.js?v=2.0.2"></script>
-  <script src="./story-flow.js?v=2.0.2"></script>
-  <script src="./game.js?v=2.0.2"></script>
+  <script src="./text.js?v=2.0.3"></script>
+  <script src="./game-config.js?v=2.0.3"></script>
+  <script src="./scene-config.js?v=2.0.3"></script>
+  <script src="./story-flow.js?v=2.0.3"></script>
+  <script src="./game.js?v=2.0.3"></script>
 </body>
 </html>
