@@ -15,3 +15,8 @@ KUNIO STORY V2.0
 ・GORILLA 80%以降の異変 / 100% SECRET END
 ・小型iPhone対応
 ・GitHub Pages cache ?v=2.0
+
+【V2.0.1】
+・index.htmlが旧V1.7.1を参照していた納品不具合を修正
+・全CSS/JS参照を?v=2.0.1へ統一
+・V2システム用AUTO/SKIP/LOG/MENU/modalLayerをindex.htmlへ追加

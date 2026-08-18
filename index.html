@@ -4,54 +4,45 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#08090c">
-  <title>KUNIO STORY｜今日は俺に任せる？</title>
-  <meta name="description" content="くにおとの一日を選択肢で進める、マルチエンディング型ショートノベルゲーム。">
-  <link rel="stylesheet" href="./css/style.css?v=1.7.1">
+  <title>KUNIO STORY V2.0.1｜今日は俺に任せる？</title>
+  <meta name="description" content="くにおとの一日を選択肢で進める、実写ADVノベルゲーム。">
+  <link rel="stylesheet" href="./css/style.css?v=2.0.1">
 </head>
 <body>
   <div id="game" class="game-shell">
-
-    <!-- 背景 -->
     <div id="backdrop" class="backdrop"></div>
 
-    <!-- 立ち絵 -->
     <div id="standingLayer" class="standing-layer" hidden>
       <img id="standingImage" class="standing-image" alt="くにお">
     </div>
 
-    <!-- 画面演出 -->
     <div id="shade" class="screen-shade"></div>
     <div id="flash" class="flash"></div>
     <div id="chapterCurtain" class="chapter-curtain" hidden></div>
     <div id="systemAlert" class="system-alert"></div>
 
-    <!-- 上部UI -->
     <header class="topbar">
       <div id="brand" class="brand">KUNIO STORY</div>
-
       <div class="top-actions">
-        <div id="gorillaMeter" class="gorilla-meter" hidden>
-          GORILLA LEVEL 0%
-        </div>
-        <button id="collectionBtn" class="icon-btn" type="button" aria-label="エンディング一覧">
-          END
-        </button>
-        <button id="homeBtn" class="icon-btn" type="button" aria-label="タイトルへ戻る" hidden>
-          HOME
-        </button>
+        <div id="gorillaMeter" class="gorilla-meter" hidden>GORILLA 0%</div>
+        <button id="autoBtn" class="icon-btn system-tool" type="button" aria-label="オート">AUTO</button>
+        <button id="skipBtn" class="icon-btn system-tool" type="button" aria-label="既読スキップ">SKIP</button>
+        <button id="logBtn" class="icon-btn system-tool" type="button" aria-label="バックログ">LOG</button>
+        <button id="menuBtn" class="icon-btn system-tool" type="button" aria-label="メニュー">MENU</button>
+        <button id="collectionBtn" class="icon-btn" type="button" aria-label="エンディング一覧">END</button>
+        <button id="homeBtn" class="icon-btn" type="button" aria-label="タイトルへ戻る" hidden>HOME</button>
       </div>
     </header>
 
-    <!-- ノベル本文 -->
     <main id="stage" class="stage" aria-live="polite"></main>
-
-    <div class="prototype-tag">KUNIO STORY V1.7.1</div>
+    <div id="modalLayer" class="modal-layer" hidden></div>
+    <div class="prototype-tag">KUNIO STORY V2.0.1</div>
   </div>
 
-  <script src="./content/text.js?v=1.7.1"></script>
-  <script src="./config/game-config.js?v=1.7.1"></script>
-  <script src="./config/scene-config.js?v=1.7.1"></script>
-  <script src="./config/story-flow.js?v=1.7.1"></script>
-  <script src="./js/game.js?v=1.7.1"></script>
+  <script src="./content/text.js?v=2.0.1"></script>
+  <script src="./config/game-config.js?v=2.0.1"></script>
+  <script src="./config/scene-config.js?v=2.0.1"></script>
+  <script src="./config/story-flow.js?v=2.0.1"></script>
+  <script src="./js/game.js?v=2.0.1"></script>
 </body>
 </html>
