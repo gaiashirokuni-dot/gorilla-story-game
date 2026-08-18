@@ -246,8 +246,7 @@
     return gymConfig || S.standing[key];
   }
 
-  function showStanding(key, backgroundKey, nodeId) {
-    const config = standingConfig(key, backgroundKey, nodeId);
+  function showStandingConfig(config) {
     standingImage.classList.remove("show");
     if (!config) {
       standingLayer.hidden = true;
@@ -261,6 +260,14 @@
     standingImage.style.transform = `translateX(-50%) scale(${config.scale || 1})`;
     standingImage.style.filter = `${config.filter || "none"} drop-shadow(0 22px 34px rgba(0,0,0,.44))`;
     requestAnimationFrame(() => requestAnimationFrame(() => standingImage.classList.add("show")));
+  }
+
+  function showStanding(key, backgroundKey, nodeId) {
+    showStandingConfig(standingConfig(key, backgroundKey, nodeId));
+  }
+
+  function showOpeningStanding(screen) {
+    showStandingConfig(S.openingStanding?.[screen]);
   }
 
   function hideStanding() {
@@ -372,7 +379,7 @@
     previousLevel = 0;
     setMode("title-mode");
     setBackground("cityDay", "center");
-    showStanding("smile");
+    showOpeningStanding("title");
     meter.hidden = true;
     brand.textContent = T.ui.brand;
 
@@ -413,7 +420,7 @@
     currentResumeState = null;
     setMode("name-mode");
     setBackground("cityDay");
-    showStanding("normal");
+    showOpeningStanding("name");
     stage.innerHTML = `
       <section class="menu-card name-card" aria-labelledby="nameQuestion">
         <div class="kicker">${esc(T.ui.nameKicker)}</div>
@@ -922,6 +929,7 @@
     const assets = new Set([
       ...Object.values(S.backgrounds),
       ...Object.values(S.standing).map((item) => item.src),
+      ...Object.values(S.openingStanding || {}).map((item) => item.src),
       ...Object.values(S.gymStanding || {}).map((item) => item.src),
       ...Object.values(C.endingCG)
     ]);
@@ -986,6 +994,7 @@
     version: C.version,
     maxGorilla: MAX_GORILLA,
     determineEnding,
+    openingStandingSource: (screen) => S.openingStanding?.[screen]?.src || null,
     standingSource: (key, backgroundKey, nodeId) => standingConfig(key, backgroundKey, nodeId)?.src || null
   });
 

@@ -45,23 +45,39 @@ window.GORILLA_SCENES = {
       filter: "none"
     }
   },
+  openingStanding: {
+    title: {
+      src: "stand-opening-seated-hq.png",
+      scale: 1,
+      x: 50,
+      y: 101,
+      filter: "none"
+    },
+    name: {
+      src: "stand-opening-seated-hq.png",
+      scale: 1,
+      x: 50,
+      y: 101,
+      filter: "none"
+    }
+  },
   gymStanding: {
     gym_1: {
-      src: "stand-gym-serious-hq.png",
+      src: "stand-gym-serious-hq-v2.png",
       scale: 1.02,
       x: 50,
       y: 101,
       filter: "contrast(1.03) saturate(1.03)"
     },
     gym_2: {
-      src: "stand-gym-smile-hq.png",
+      src: "stand-gym-smile-hq-v2.png",
       scale: 1.02,
       x: 50,
       y: 101,
       filter: "none"
     },
     arm_scene: {
-      src: "stand-gym-serious-hq.png",
+      src: "stand-gym-serious-hq-v2.png",
       scale: 1.04,
       x: 50,
       y: 101,
