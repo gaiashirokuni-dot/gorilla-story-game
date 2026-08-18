@@ -1185,3 +1185,231 @@ button{cursor:pointer}
     scroll-behavior:auto !important;
   }
 }
+
+
+/* =========================================================
+   KUNIO STORY V1.7
+   POLISHED INTERACTION PASS
+   ========================================================= */
+
+/* ---------- Title Logo ---------- */
+
+.title-logo{
+  position:relative;
+  display:inline-grid;
+  justify-items:center;
+  margin:0 auto 14px;
+  line-height:.82;
+  filter:drop-shadow(0 7px 22px rgba(0,0,0,.48));
+}
+
+.title-logo-kunio{
+  font-family:"Times New Roman","Yu Mincho",serif;
+  font-size:42px;
+  font-weight:700;
+  letter-spacing:.20em;
+  margin-right:-.20em;
+  color:#fff;
+}
+
+.title-logo-story{
+  margin-top:7px;
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.62em;
+  margin-right:-.62em;
+  color:rgba(215,185,107,.92);
+}
+
+.title-logo-line{
+  width:42px;
+  height:1px;
+  margin-top:12px;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(215,185,107,.95),
+    transparent
+  );
+}
+
+.title-subcopy{
+  font-size:20px !important;
+  font-weight:500;
+  color:rgba(255,255,255,.92);
+}
+
+.game-shell.title-mode .menu-card{
+  padding-top:28px;
+}
+
+/* ---------- ADV advance indicator ---------- */
+
+.vn-tap{
+  gap:7px;
+  min-height:22px;
+  user-select:none;
+}
+
+.tap-label{
+  font-size:6px;
+  letter-spacing:.22em;
+  transition:opacity .2s ease;
+}
+
+.advance-icon{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:18px;
+  height:18px;
+}
+
+.advance-dot{
+  position:absolute;
+  width:3px;
+  height:3px;
+  border-radius:50%;
+  background:rgba(215,185,107,.92);
+  box-shadow:0 0 8px rgba(215,185,107,.42);
+  animation:advancePulse 1.15s ease-in-out infinite;
+}
+
+.advance-chevron{
+  position:absolute;
+  width:7px;
+  height:7px;
+  border-right:1px solid rgba(255,255,255,.70);
+  border-bottom:1px solid rgba(255,255,255,.70);
+  transform:rotate(45deg) translate(-2px,-2px);
+  animation:advanceDown .92s ease-in-out infinite alternate;
+}
+
+.vn-tap.select-mode .advance-dot{
+  opacity:.25;
+}
+
+.vn-tap.select-mode .advance-chevron{
+  transform:rotate(-45deg);
+  animation:advanceSide .8s ease-in-out infinite alternate;
+}
+
+@keyframes advancePulse{
+  0%,100%{opacity:.35;transform:scale(.75)}
+  50%{opacity:1;transform:scale(1.15)}
+}
+
+@keyframes advanceDown{
+  from{opacity:.35;translate:0 -1px}
+  to{opacity:1;translate:0 2px}
+}
+
+@keyframes advanceSide{
+  from{opacity:.35;translate:-2px 0}
+  to{opacity:1;translate:2px 0}
+}
+
+/* ---------- Choice reveal ---------- */
+
+.choice-stack.show{
+  perspective:600px;
+}
+
+.choice-stack.show .choice{
+  transform-origin:center top;
+  animation:choiceReveal .34s cubic-bezier(.2,.7,.25,1) both;
+}
+
+.choice-stack.show .choice:nth-child(2){
+  animation-delay:.07s;
+}
+
+.choice-stack.show .choice:nth-child(3){
+  animation-delay:.14s;
+}
+
+@keyframes choiceReveal{
+  from{
+    opacity:0;
+    transform:translateY(9px) scale(.985);
+    filter:blur(2px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+    filter:none;
+  }
+}
+
+.choice:active{
+  transform:scale(.985);
+}
+
+/* ---------- Tap interaction affordance ---------- */
+
+.vn-box{
+  cursor:default;
+  touch-action:manipulation;
+}
+
+.vn-dialogue.typing{
+  cursor:pointer;
+}
+
+.reaction-tap-hint{
+  opacity:.28;
+  transition:opacity .2s ease;
+}
+
+.reaction-tap-hint.ready{
+  opacity:.82;
+}
+
+/* reaction button becomes secondary to screen tap */
+.reaction-continue{
+  margin-top:6px;
+}
+
+.reaction-continue .btn{
+  min-height:36px;
+  opacity:.72;
+}
+
+/* ---------- title responsiveness ---------- */
+
+@media(max-width:360px){
+  .title-logo-kunio{
+    font-size:36px;
+  }
+
+  .title-logo-story{
+    font-size:9px;
+  }
+
+  .title-subcopy{
+    font-size:18px !important;
+  }
+}
+
+@media(max-height:700px){
+  .title-logo{
+    margin-bottom:10px;
+  }
+
+  .title-logo-kunio{
+    font-size:34px;
+  }
+
+  .game-shell.title-mode .menu-card{
+    padding-top:20px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .advance-dot,
+  .advance-chevron{
+    animation:none !important;
+  }
+}

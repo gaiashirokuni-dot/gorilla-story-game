@@ -215,18 +215,21 @@
 
     const text = replaceName(rawText);
     let index = 0;
+    let completed = false;
 
     element.textContent = "";
     element.classList.add("typing");
 
     const finish = () => {
+      if (completed) return;
+      completed = true;
       stopTyping();
       element.textContent = text;
       element.classList.remove("typing");
       if (onComplete) onComplete();
     };
 
-    element.onclick = finish;
+    element._finishTyping = finish;
 
     typingTimer = setInterval(() => {
       if (index >= text.length) {
@@ -236,7 +239,27 @@
 
       element.textContent += text[index];
       index++;
-    }, 28);
+    }, 26);
+
+    return finish;
+  }
+
+  function bindTapToFinish(container, dialogueElement) {
+    const handler = event => {
+      const interactive = event.target.closest(
+        "button, a, input, textarea, [data-choice]"
+      );
+
+      if (interactive) return;
+
+      if (dialogueElement.classList.contains("typing")) {
+        event.preventDefault();
+        dialogueElement._finishTyping?.();
+      }
+    };
+
+    container.addEventListener("click", handler);
+    return handler;
   }
 
   function showChapterCurtain(chapter, title, callback) {
@@ -287,7 +310,13 @@
       <section class="menu-card center">
         <div class="kicker">${esc(TEXT.ui.titleKicker)}</div>
 
-        <h1 class="title">${html(TEXT.ui.title)}</h1>
+        <div class="title-logo" aria-label="KUNIO STORY">
+          <div class="title-logo-kunio">KUNIO</div>
+          <div class="title-logo-story">STORY</div>
+          <div class="title-logo-line"></div>
+        </div>
+
+        <h1 class="title title-subcopy">${html(TEXT.ui.title)}</h1>
 
         <p class="lead">${html(TEXT.ui.lead)}</p>
 
@@ -407,9 +436,12 @@
 
         <div id="dialogueText" class="vn-dialogue"></div>
 
-        <div id="tapHint" class="vn-tap">
-          TAP TO SKIP
-          <span class="triangle">▼</span>
+        <div id="tapHint" class="vn-tap" aria-hidden="true">
+          <span class="tap-label">TAP</span>
+          <span class="advance-icon">
+            <span class="advance-dot"></span>
+            <span class="advance-chevron"></span>
+          </span>
         </div>
 
         <div id="choiceStack" class="choice-stack">
@@ -426,10 +458,14 @@
       dialogue,
       textNode.text,
       () => {
-        tapHint.textContent = "SELECT";
+        tapHint.classList.add("select-mode");
+        const label = tapHint.querySelector(".tap-label");
+        if (label) label.textContent = "SELECT";
         choices.classList.add("show");
       }
     );
+
+    bindTapToFinish(stage, dialogue);
 
     stage.querySelectorAll("[data-choice]").forEach(button => {
       button.onclick = () => {
@@ -489,6 +525,14 @@
 
         <div id="reactionText" class="vn-dialogue"></div>
 
+        <div id="reactionTapHint" class="vn-tap reaction-tap-hint" aria-hidden="true">
+          <span class="tap-label">TAP</span>
+          <span class="advance-icon">
+            <span class="advance-dot"></span>
+            <span class="advance-chevron"></span>
+          </span>
+        </div>
+
         <div id="reactionContinueWrap" class="reaction-continue">
           <button id="reactionContinue" class="btn primary">
             ${esc(TEXT.ui.continue)}
@@ -503,17 +547,18 @@
     const continueWrap =
       document.getElementById("reactionContinueWrap");
 
+    const reactionHint =
+      document.getElementById("reactionTapHint");
+
     continueWrap.classList.remove("show");
 
-    typeDialogue(
-      reactionText,
-      reaction,
-      () => {
-        continueWrap.classList.add("show");
-      }
-    );
+    let reactionReady = false;
+    let advancing = false;
 
-    document.getElementById("reactionContinue").onclick = () => {
+    const advanceReaction = () => {
+      if (!reactionReady || advancing) return;
+      advancing = true;
+
       stopTyping();
       flash.classList.add("on");
 
@@ -527,7 +572,36 @@
         setTimeout(() => {
           flash.classList.remove("on");
         }, 100);
-      }, 300);
+      }, 280);
+    };
+
+    typeDialogue(
+      reactionText,
+      reaction,
+      () => {
+        reactionReady = true;
+        continueWrap.classList.add("show");
+        reactionHint?.classList.add("ready");
+      }
+    );
+
+    bindTapToFinish(stage, reactionText);
+
+    const reactionBox = stage.querySelector(".reaction-box");
+    reactionBox?.addEventListener("click", event => {
+      if (event.target.closest("button, a")) return;
+
+      if (reactionText.classList.contains("typing")) {
+        reactionText._finishTyping?.();
+        return;
+      }
+
+      advanceReaction();
+    });
+
+    document.getElementById("reactionContinue").onclick = event => {
+      event.stopPropagation();
+      advanceReaction();
     };
   }
 
