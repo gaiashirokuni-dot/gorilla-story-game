@@ -241,8 +241,13 @@
     backdrop.style.backgroundPosition = position;
   }
 
-  function showStanding(key) {
-    const config = S.standing[key];
+  function standingConfig(key, backgroundKey, nodeId) {
+    const gymConfig = backgroundKey === "gym" ? S.gymStanding?.[nodeId] : null;
+    return gymConfig || S.standing[key];
+  }
+
+  function showStanding(key, backgroundKey, nodeId) {
+    const config = standingConfig(key, backgroundKey, nodeId);
     standingImage.classList.remove("show");
     if (!config) {
       standingLayer.hidden = true;
@@ -471,7 +476,7 @@
 
   function renderScene(id, flowNode, textNode) {
     setBackground(flowNode.background);
-    showStanding(flowNode.standing);
+    showStanding(flowNode.standing, flowNode.background, id);
     const choices = Object.keys(flowNode.choices).map((choiceId, index) => `
       <button class="choice" type="button" data-choice="${choiceId}" aria-label="選択肢${index + 1}：${esc(textNode.choices[choiceId])}">
         <span class="choice-number">${String(index + 1).padStart(2, "0")}</span>
@@ -917,6 +922,7 @@
     const assets = new Set([
       ...Object.values(S.backgrounds),
       ...Object.values(S.standing).map((item) => item.src),
+      ...Object.values(S.gymStanding || {}).map((item) => item.src),
       ...Object.values(C.endingCG)
     ]);
     assets.forEach((src) => {
@@ -979,7 +985,8 @@
   window.KUNIO_STORY_TEST = Object.freeze({
     version: C.version,
     maxGorilla: MAX_GORILLA,
-    determineEnding
+    determineEnding,
+    standingSource: (key, backgroundKey, nodeId) => standingConfig(key, backgroundKey, nodeId)?.src || null
   });
 
   preloadImages();

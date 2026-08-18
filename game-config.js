@@ -1,5 +1,5 @@
 window.GORILLA_CONFIG = {
-  version: "2.0.4",
+  version: "2.0.5",
   storageKey: "kunioStoryEndsV2",
   saveKey: "kunioStorySaveV2",
   seenKey: "kunioStorySeenV2",
