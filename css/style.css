@@ -741,3 +741,230 @@ button{cursor:pointer}
 .collection-back-btn{
   margin-top:12px;
 }
+
+
+/* ===== KUNIO STORY V1.5 UI OVERHAUL ===== */
+
+:root{
+  --gold:#d7b96b;
+}
+
+.backdrop{
+  filter:saturate(.9) brightness(.83);
+}
+
+.screen-shade{
+  background:linear-gradient(
+    to bottom,
+    rgba(0,0,0,.18),
+    rgba(0,0,0,.03) 28%,
+    rgba(0,0,0,.10) 54%,
+    rgba(0,0,0,.52) 76%,
+    rgba(0,0,0,.88) 100%
+  );
+}
+
+.topbar{
+  padding:calc(10px + env(safe-area-inset-top)) 11px 8px;
+}
+
+.brand{
+  font-size:7px;
+  letter-spacing:.28em;
+  opacity:.58;
+}
+
+.icon-btn,.gorilla-meter{
+  min-height:26px;
+  padding:5px 8px;
+  font-size:7px;
+  letter-spacing:.13em;
+  border-color:rgba(255,255,255,.11);
+  background:rgba(0,0,0,.23);
+  color:rgba(255,255,255,.56);
+}
+
+.gorilla-meter{
+  color:#ead07e;
+  border-color:rgba(234,208,126,.24);
+  transition:.22s ease;
+}
+
+.gorilla-meter.level-up{
+  transform:scale(1.06);
+  background:rgba(83,64,9,.45);
+  border-color:rgba(234,208,126,.48);
+}
+
+.stage{
+  padding:68px 10px calc(10px + env(safe-area-inset-bottom));
+}
+
+.menu-card{
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.11);
+  background:linear-gradient(180deg,rgba(8,9,13,.70),rgba(5,6,9,.91));
+  backdrop-filter:blur(20px);
+  padding:24px 18px 19px;
+  box-shadow:0 24px 70px rgba(0,0,0,.48);
+}
+
+.kicker{
+  color:var(--gold);
+  font-size:7px;
+  letter-spacing:.32em;
+  margin-bottom:12px;
+}
+
+.title{
+  font-size:30px;
+  letter-spacing:.03em;
+}
+
+.lead{
+  margin-top:15px;
+  font-size:13px;
+  line-height:1.95;
+  color:rgba(255,255,255,.78);
+}
+
+.menu-card .muted{
+  font-size:8px;
+  color:rgba(255,255,255,.38);
+}
+
+.menu-card .btn{
+  min-height:42px;
+  border-radius:7px;
+  font-size:9px;
+  letter-spacing:.13em;
+}
+
+.menu-card .btn.primary{
+  border-color:rgba(215,185,107,.32);
+  background:linear-gradient(90deg,rgba(215,185,107,.09),rgba(255,255,255,.05));
+}
+
+.vn-box{
+  min-height:174px;
+  border-radius:4px 4px 12px 12px;
+  border:1px solid rgba(255,255,255,.14);
+  background:linear-gradient(180deg,rgba(8,9,14,.80),rgba(4,5,8,.96));
+  padding:27px 17px 14px;
+  backdrop-filter:blur(15px);
+}
+
+.vn-box::before{
+  content:"";
+  position:absolute;
+  left:0; right:0; top:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(215,185,107,.45),transparent);
+}
+
+.vn-nameplate{
+  top:-17px;
+  left:11px;
+  min-width:86px;
+  padding:7px 15px 8px;
+  border-radius:4px;
+  border-color:rgba(215,185,107,.28);
+  background:rgba(8,9,13,.96);
+  color:#f1e7cb;
+  font-size:12px;
+  letter-spacing:.13em;
+}
+
+.vn-dialogue{
+  min-height:72px;
+  font-size:14px;
+  line-height:2;
+}
+
+.choice-stack{
+  gap:6px;
+  margin-top:12px;
+}
+
+.choice{
+  min-height:40px;
+  border-radius:5px;
+  padding:10px 14px 10px 32px;
+  border-color:rgba(255,255,255,.11);
+  background:linear-gradient(90deg,rgba(255,255,255,.025),rgba(255,255,255,.055));
+  font-size:11px;
+}
+
+.choice::before{
+  border-color:rgba(215,185,107,.72);
+}
+
+.choice:hover,.choice:active{
+  background:linear-gradient(90deg,rgba(215,185,107,.12),rgba(255,255,255,.07));
+  border-color:rgba(215,185,107,.30);
+}
+
+.choice-stack.show .choice{
+  animation:choiceIn .28s ease both;
+}
+.choice-stack.show .choice:nth-child(2){animation-delay:.05s}
+.choice-stack.show .choice:nth-child(3){animation-delay:.10s}
+
+@keyframes choiceIn{
+  from{opacity:0;transform:translateY(5px)}
+  to{opacity:1;transform:none}
+}
+
+.collection-grid{
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.end-row{
+  min-height:74px;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:space-between;
+  padding:10px;
+  border-radius:7px;
+  font-size:8px;
+}
+
+.end-row.found{
+  border-color:rgba(215,185,107,.20);
+}
+
+.end-row-button{
+  position:relative;
+  overflow:hidden;
+}
+
+.end-row-button::after{
+  content:"MEMORY";
+  position:absolute;
+  right:8px;
+  bottom:7px;
+  font-size:5px;
+  letter-spacing:.18em;
+  color:rgba(215,185,107,.48);
+}
+
+.ending-panel{
+  border-top-color:rgba(215,185,107,.22);
+}
+
+.ending-kicker{
+  color:var(--gold);
+  font-size:7px;
+  letter-spacing:.34em;
+}
+
+.result-label{
+  color:rgba(215,185,107,.72);
+}
+
+@media(max-height:700px){
+  .vn-box{min-height:150px}
+  .vn-dialogue{font-size:13px;line-height:1.78}
+  .end-row{min-height:64px}
+}

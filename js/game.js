@@ -28,6 +28,7 @@
   let state = freshState();
   let typingTimer = null;
   let lastChapter = null;
+  let previousGorillaLevel = 0;
 
   function freshState() {
     const score = {};
@@ -114,15 +115,21 @@
       gorillaMeter.hidden = false;
       gorillaMeter.textContent = `GORILLA LEVEL ${level}%`;
 
-      if (level >= 80) {
-        brand.textContent = "GORILLA SYSTEM";
-      } else {
-        brand.textContent = TEXT.ui.brand;
+      if (level > previousGorillaLevel) {
+        gorillaMeter.classList.remove("level-up");
+        void gorillaMeter.offsetWidth;
+        gorillaMeter.classList.add("level-up");
+        setTimeout(() => gorillaMeter.classList.remove("level-up"), 360);
       }
+
+      brand.textContent =
+        level >= 80 ? "GORILLA SYSTEM" : TEXT.ui.brand;
     } else {
       gorillaMeter.hidden = true;
       brand.textContent = TEXT.ui.brand;
     }
+
+    previousGorillaLevel = level;
   }
 
   function setBackground(key) {
@@ -263,6 +270,7 @@
   function titleScreen() {
     state = freshState();
     lastChapter = null;
+    previousGorillaLevel = 0;
     stopTyping();
 
     game.classList.remove("event-mode");
@@ -695,8 +703,20 @@
           : TEXT.ui.unknown;
 
         if (isFound) {
+          const thumb = CONFIG.endingCG[id];
+
           return `
-            <button class="end-row found end-row-button" data-ending-id="${id}">
+            <button
+              class="end-row found end-row-button"
+              data-ending-id="${id}"
+              style="
+                background-image:
+                  linear-gradient(rgba(4,5,8,.52),rgba(4,5,8,.88)),
+                  url('${thumb}');
+                background-size:cover;
+                background-position:center;
+              "
+            >
               <span>
                 ${String(index + 1).padStart(2, "0")}　
                 ${esc(label)}
